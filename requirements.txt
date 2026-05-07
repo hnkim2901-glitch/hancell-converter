@@ -1,0 +1,15 @@
+# UI 프레임워크
+PySide6>=6.5.0
+
+# 프로세스 관리
+psutil>=5.9.0
+
+# Windows 자동화
+pywinauto>=0.6.8
+pywin32>=305
+
+# 스크린샷
+Pillow>=10.0.0
+
+# PyInstaller (exe 패키징용)
+pyinstaller>=5.13.0

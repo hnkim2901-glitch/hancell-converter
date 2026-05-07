@@ -1,0 +1,8 @@
+# 테스트 의존성
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# 기본 의존성 (Windows 의존성 제외)
+# Mac에서는 PySide6, pywinauto, pywin32는 설치하지 않음
+# 대신 Mock으로 대체
