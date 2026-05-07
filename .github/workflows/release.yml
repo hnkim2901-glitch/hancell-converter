@@ -3,7 +3,10 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*'  # v1.0.0, v1.1.0 등의 태그가 푸시되면 실행
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -11,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
@@ -27,36 +30,40 @@ jobs:
       run: |
         pyinstaller hancell-converter.spec
 
-    - name: Create Release and Upload
-      uses: softprops/action-gh-release@v1
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
-        files: dist/HancellConverter.exe
+        name: HancellConverter
+        path: dist/HancellConverter.exe
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/HancellConverter.exe"
         body: |
           ## 한셀 파일 일괄 변환기
 
           Windows용 한셀 파일 변환 프로그램입니다.
 
-          ### 다운로드
-          아래 `HancellConverter.exe`를 다운로드하세요.
+          ### 📦 다운로드
+          아래 Assets에서 `HancellConverter.exe`를 다운로드하세요.
 
-          ### 시스템 요구사항
+          ### 💻 시스템 요구사항
           - Windows 10 이상
           - 한컴오피스 한셀 설치 필요
 
-          ### 사용 방법
+          ### 🚀 사용 방법
           1. exe 파일 다운로드
           2. 더블클릭하여 실행
           3. 한셀 파일을 드래그앤드롭
           4. 변환 형식 선택 (PDF, HTML, XLS, XLSX)
           5. 변환 시작!
 
-          ### 주요 기능
+          ### ✨ 주요 기능
           - 드래그앤드롭 UI
           - 다중 형식 변환
           - 대량 파일 처리
           - 실패 재시도
           - CSV 로깅
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        token: ${{ secrets.GITHUB_TOKEN }}
